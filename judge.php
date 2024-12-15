@@ -146,7 +146,7 @@
                 <button onclick="location.href='changepassword.php'">修改密碼</button>
                 <button onclick="location.href=''">修改個資</button>
                 <button onclick="location.href=''">評分</button>
-                <button onclick="location.href=''">瀏覽歷屆作品</button>
+                <button onclick="location.href='browse-projects.html'">瀏覽歷屆作品</button>
             </div>
         </div>
     </div>
