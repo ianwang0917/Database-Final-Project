@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #007BFF;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+        .container {
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .project-list {
+            margin-top: 30px;
+        }
+        .project-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .project-item h3 {
+            margin: 0 0 10px;
+        }
+        .project-item a {
+            color: #007BFF;
+            text-decoration: underline;
+        }
+        .project-item button {
+            margin-right: 10px;
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .filter-buttons {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .filter-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let projects = JSON.parse(localStorage.getItem('projects')) || [];
+
+        function addProject(event) {
+            event.preventDefault();
+            const title = document.getElementById('title').value;
+            const description = document.getElementById('description').value;
+            const youtubeLink = document.getElementById('youtubeLink').value;
+            const githubLink = document.getElementById('githubLink').value;
+            const imageFile = document.getElementById('imageFile').files[0];
+            const pdfFile = document.getElementById('pdfFile').files[0];
+
+            const reader = new FileReader();
+            const project = {
+                title,
+                description,
+                youtubeLink,
+                githubLink,
+                imageUrl: '',
+                pdfUrl: ''
+            };
+
+            if (imageFile) {
+                reader.onload = function(e) {
+                    project.imageUrl = e.target.result;
+                    if (!pdfFile) {
+                        finalizeProject(project);
+                    }
+                };
+                reader.readAsDataURL(imageFile);
+            }
+
+            if (pdfFile) {
+                reader.onload = function(e) {
+                    project.pdfUrl = e.target.result;
+                    finalizeProject(project);
+                };
+                reader.readAsDataURL(pdfFile);
+            }
+
+            if (!imageFile && !pdfFile) {
+                finalizeProject(project);
+            }
+        }
+
+        function finalizeProject(project) {
+            projects.push(project);
+            localStorage.setItem('projects', JSON.stringify(projects));
+            renderProjects();
+            document.getElementById('projectForm').reset();
+        }
+
+        function renderProjects() {
+            const projectList = document.getElementById('projectList');
+            projectList.innerHTML = '';
+
+            projects.forEach((project, index) => {
+                projectList.innerHTML += `
+                    <div class="project-item">
+                        <h3>${project.title}</h3>
+                        <p>${project.description}</p>
+                        <p><a href="${project.youtubeLink}" target="_blank">成果展示</a></p>
+                        <p><a href="${project.githubLink}" target="_blank">GitHub</a></p>
+                        ${project.imageUrl ? `<p><img src="${project.imageUrl}" alt="Image" style="max-width: 100%; height: auto;" /></p>` : ''}
+                        ${project.pdfUrl ? `<p><a href="${project.pdfUrl}" target="_blank">PDF 文件</a></p>` : ''}
+                        <button onclick="deleteProject(${index})">刪除作品</button>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteProject(index) {
+            projects.splice(index, 1);
+            localStorage.setItem('projects', JSON.stringify(projects));
+            renderProjects();
+        }
+
+        window.onload = function() {
+            renderProjects();
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div>作品瀏覽及管理</div>
+        <div>
+            <a href="main.html">首頁</a>
+        </div>
+    </div>
+    <div class="container">
+        <h1>管理作品</h1>
+        <form id="projectForm" onsubmit="addProject(event)">
+            <div class="form-group">
+                <label for="title">作品名稱</label>
+                <input type="text" id="title" required>
+            </div>
+            <div class="form-group">
+                <label for="description">作品說明</label>
+                <input type="text" id="description" required>
+            </div>
+            <div class="form-group">
+                <label for="youtubeLink">作品展示錄影(請上傳Youtube連結)</label>
+                <input type="url" id="youtubeLink" required>
+            </div>
+            <div class="form-group">
+                <label for="githubLink">GitHub連結</label>
+                <input type="url" id="githubLink" required>
+            </div>
+            <div class="form-group">
+                <label for="imageFile">上傳圖片</label>
+                <input type="file" id="imageFile" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label for="pdfFile">上傳 PDF</label>
+                <input type="file" id="pdfFile" accept="application/pdf">
+            </div>
+            <div class="form-group">
+                <button type="submit">新增</button>
+            </div>
+        </form>
+
+        <div class="filter-buttons">
+            <button onclick="renderProjects()">查看所有作品</button>
+        </div>
+
+        <div class="project-list" id="projectList">
+            <!-- 作品列表將在這裡顯示 -->
+        </div>
+    </div>
+</body>
+</html>

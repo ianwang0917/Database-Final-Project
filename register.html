@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>選擇註冊身分</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .register-container {
+            text-align: center;
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+        }
+        .register-container h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .register-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+        .register-options div {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .register-options div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .register-options img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 15px;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+        .register-options div:hover img {
+            transform: scale(1.1);
+        }
+        .register-options p {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+            color: #333;
+        }
+        /* Responsive Design */
+        @media screen and (max-width: 600px) {
+            .register-options {
+                grid-template-columns: 1fr 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h1>選擇您的身分類別</h1>
+        <div class="register-options">
+            <div onclick="location.href='stureg.html'">
+                <img src="img/student.png" alt="Student">
+                <p>學生</p>
+            </div>
+            <div onclick="location.href='teareg.html'">
+                <img src="img/teacher.jpg" alt="Teacher">
+                <p>指導老師</p>
+            </div>
+            <div onclick="location.href='judreg.html'">
+                <img src="img/judge.png" alt="Judge">
+                <p>評審</p>
+            </div>
+            <div onclick="location.href='adminreg.html'">
+                <img src="img/admin.jpg" alt="Admin">
+                <p>管理員</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
