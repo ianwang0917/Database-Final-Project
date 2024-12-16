@@ -22,7 +22,7 @@
             padding: 15px 30px;
             background-color: #007BFF;
             color: white;
-            position: relative; /* 新增 */
+            position: relative;
         }
 
         .navbar .logo img {
@@ -33,9 +33,9 @@
         .navbar .site-name {
             font-size: 28px;
             font-weight: bold;
-            position: absolute; /* 新增 */
-            left: 50%;          /* 新增 */
-            transform: translateX(-50%); /* 新增 */
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .navbar .auth-links a {
@@ -57,6 +57,19 @@
             justify-content: center;
             align-items: center;
             padding: 40px 20px;
+            flex-direction: column;
+        }
+
+        .main-image {
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .main-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .announcements {
@@ -164,6 +177,9 @@
 
     <!-- Main Content -->
     <div class="main-content">
+        <div class="main-image">
+            <img src="img/main.jpg" alt="Main Image">
+        </div>
         <div class="announcements">
             <div class="announcement-header" onclick="window.location.href='announcement.php'">最新公告 > 更多</div>
             <div class="announcement-list">

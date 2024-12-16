@@ -1,26 +1,9 @@
-<?php
-    session_start();
-    if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
-        exit();
-    }
-    include("connection.php");
-    $select_db = @mysqli_select_db($link, "competition");
-    if(!$select_db) {
-        echo "<br>找不到資料庫!<br>";
-    }
-    $ssn = $_SESSION["ssn"];
-    $sql_query_user = "SELECT * FROM `user` WHERE `ssn` = '$ssn'";
-    $result_user = mysqli_query($link, $sql_query_user);
-    $row_user = mysqli_fetch_assoc($result_user);
-?>
-
 <!DOCTYPE html>
-<html lang="zh-Hant-TW">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>高雄大學學生創意競賽</title>
+    <title>Team Information</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -68,15 +51,15 @@
             border-bottom: 2px solid #007BFF;
             padding-bottom: 5px;
         }
-        .personal-info {
+        .team-info {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
         }
-        .personal-info div {
+        .team-info div {
             margin-bottom: 10px;
         }
-        .personal-info label {
+        .team-info label {
             font-weight: bold;
         }
         .buttons {
@@ -97,41 +80,26 @@
         .buttons button:hover {
             background-color: #0056b3;
         }
-        .upload-section {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        .upload-section input,
-        .upload-section textarea {
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        #logout {
-            text-decoration: none;
-            color : white;
-        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <div class="site-name">高雄大學學生創意競賽</div>
         <div class="auth-links">
-            <a href="logout.php" id="logout">登出</a>
+            <a href="index.php">Logout</a>
         </div>
     </div>
     <div class="main-content">
-        <!-- 個人資料區域 -->
+        <!-- 隊伍資訊區域 -->
         <div class="section">
-            <div class="section-title">管理員個人資料</div>
-            <div class="personal-info">
-                <div><label>姓名：<?php echo $row_user["name"];?></label> </div>
-                <div><label>居住地址：<?php echo $row_user["address"];?></label> </div>
-                <div><label>聯絡電話：<?php echo $row_user["phonenumber"];?></label> </div>
-                <div><label>Email：<?php echo $row_user["email"];?></label> </div>
+            <div class="section-title">隊伍資訊</div>
+            <div class="team-info">
+                <div><label>隊伍名稱：</label> </div>
+                <div><label>指導教授：</label> </div>
+                <div><label>學生1：</label> </div>
+                <div><label>學生2：</label> </div>
+                <div><label>學生3：</label> </div>
+                <div><label>學生4：</label> </div>
             </div>
         </div>
 
@@ -139,10 +107,9 @@
         <div class="section">
             <div class="section-title">功能選單</div>
             <div class="buttons">
-                <button onclick="location.href='changepassword.php'">修改密碼</button>
-                <button onclick="location.href='create_announcement.php'">新增公告</button>
-                <button onclick="location.href='modify_announcement.php'">修改公告</button>
-                <button onclick="location.href=''">獲得所有使用者報表</button>
+                <button onclick="location.href='edit_team.html'">修改隊伍資料</button>
+                <button onclick="location.href='project_management.html'">上傳作品</button>
+                <button onclick="location.href='browse-project.html'">瀏覽作品</button>
             </div>
         </div>
     </div>
