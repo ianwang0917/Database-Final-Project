@@ -8,7 +8,7 @@
         exit();
     }
     
-    include("connection.php");
+    require_once("../library/connection.php");
     $select_db = @mysqli_select_db($link, "competition");
     if(!$select_db) {
         echo "<br>找不到資料庫!<br>";
@@ -129,10 +129,10 @@
 <body>
     <div class="navbar">
         <div class="site-name">
-            <a href="<?php echo $identity; ?>.php" id="home">高雄大學學生創意競賽</a>
+            <a href="#" id="home">高雄大學學生創意競賽</a>
         </div>
         <div class="auth-links">
-            <a href="logout.php" id="logout">登出</a>
+            <a href="../auth/logout.php" id="logout">登出</a>
         </div>
     </div>
     <div class="main-content">
@@ -176,32 +176,32 @@
         <div class="section">
             <div class="section-title">功能選單</div>
             <div class="buttons">
-                <button onclick="location.href='changepassword.php'">修改密碼</button>
+                <button onclick="location.href='../auth/profile/changepassword.php'">修改密碼</button>
                 
                 <?php if ($identity != 'admin'): ?>
-                    <button onclick="location.href='editprofile.php'">修改個資</button>
+                    <button onclick="location.href='../auth/profile/editprofile.php'">修改個資</button>
                 <?php endif; ?>
                 
                 <?php if ($identity == 'admin'): ?>
-                    <button onclick="location.href='create_announcement.php'">新增公告</button>
-                    <button onclick="location.href='modify_announcement.php'">修改公告</button>
-                    <button onclick="location.href='allusers.php'">獲得所有使用者報表</button>
+                    <button onclick="location.href='../admin/create_announcement.php'">新增公告</button>
+                    <button onclick="location.href='../admin/modify_announcement.php'">修改公告</button>
+                    <button onclick="location.href='../view/allusers.php'">獲得所有使用者報表</button>
                 <?php endif; ?>
                 
                 <?php if ($identity == 'judge'): ?>
-                    <button onclick="location.href='judge/grade.php'">評分</button>
-                    <button onclick="location.href='judge/browse-projects.html'">瀏覽歷屆作品</button>
+                    <button onclick="location.href='../judge/grade.php'">評分</button>
+                    <button onclick="location.href='../view/browse-project.php'">瀏覽歷屆作品</button>
                 <?php endif; ?>
                 
                 <?php if ($identity == 'student'): ?>
-                    <button onclick="location.href='student/teamreg.php'">報名/修改團隊資訊</button>
-                    <button onclick="location.href='student/project_management.html'">上傳作品</button>
-                    <button onclick="location.href='student/browse-project.html'">瀏覽歷屆作品</button>
+                    <button onclick="location.href='../student/team/teamreg.php'">報名/修改團隊資訊</button>
+                    <button onclick="location.href='../student/project_management.html'">上傳作品</button>
+                    <button onclick="location.href='../view/browse-project.php'">瀏覽歷屆作品</button>
                 <?php endif; ?>
                 
                 <?php if ($identity == 'teacher'): ?>
                     <button onclick="location.href=''">指導學生之資料/作品</button>
-                    <button onclick="location.href='browse-projects.html'">瀏覽歷屆作品</button>
+                    <button onclick="location.href='../view/browse-project.php'">瀏覽歷屆作品</button>
                 <?php endif; ?>
             </div>
         </div>

@@ -72,7 +72,7 @@
     <div class="navbar">
         <div>高雄大學學生創意競賽</div>
         <div>
-            <a href="../console.php">返回</a>
+            <a href="console.php">返回</a>
         </div>
     </div>
     

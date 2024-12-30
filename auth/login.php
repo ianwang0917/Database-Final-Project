@@ -1,24 +1,10 @@
 <?php
     session_start();
-    include("connection.php");
-    $table = ['admin', 'student', 'teacher', 'judge'];
-    $select_db = @mysqli_select_db($link, "competition");
-    if (!$select_db) {
-        echo "<br>找不到資料庫!<br>";
+    require_once("../library/connection.php");
+    if (isset($_SESSION["ssn"])) {
+        $str = "Location: ../view/console.php";
+        header($str);
         exit();
-    }
-    if(isset($_SESSION["ssn"])){ 
-        $ssn = $_SESSION["ssn"];
-        for($i = 0; $i < count($table); $i++) {
-            $sql_query2 = "SELECT * FROM $table[$i] WHERE `ssn` = '$ssn'";
-            $result2 = mysqli_query($link, $sql_query2);
-            if(mysqli_num_rows($result2)) {
-                $str = "Location: " . $table[$i] . ".php";
-                header($str);
-                exit();
-                break;
-            }
-        }
     }
 ?>
 
@@ -122,8 +108,8 @@
             </div>
         </form>
         <div class="form-footer">
-            <p>還沒有帳號嗎? <a href="register/register.html">註冊</a></p>
-            <p>返回 <a href="index.php">首頁</a></p>
+            <p>還沒有帳號嗎? <a href="../register/register.html">註冊</a></p>
+            <p>返回 <a href="../view/index.php">首頁</a></p>
         </div>
     </div>
 </body>

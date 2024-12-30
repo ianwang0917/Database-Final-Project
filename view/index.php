@@ -166,26 +166,26 @@
     <!-- Navbar -->
     <div class="navbar">
         <div class="logo">
-            <img src="img/logo.png" alt="Logo">
+            <img src="../img/logo.png" alt="Logo">
         </div>
         <div class="site-name">高雄大學學生創意競賽</div>
         <div class="auth-links">
-            <a href="login.php">登入</a>
-            <a href="register/register.html">註冊</a>
+            <a href="../auth/login.php">登入</a>
+            <a href="../register/register.html">註冊</a>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <div class="main-image">
-            <img src="img/main.jpg" alt="Main Image">
+            <img src="../img/main.jpg" alt="Main Image">
         </div>
         <div class="announcements">
             <div class="announcement-header" onclick="window.location.href='announcement.php'">最新公告 > 更多</div>
             <div class="announcement-list">
                 <?php
                 // 資料庫連接
-                include("connection.php");
+                require_once("../library/connection.php");
                 // 建立連接
                 $select_db = @mysqli_select_db($link, "competition");
 

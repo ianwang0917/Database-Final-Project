@@ -1,8 +1,8 @@
 <?php
-    include("connection.php");
+    require_once("../../library/connection.php");
     session_start();
     if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
+        header("Location: ../login.php");
         exit();
     }
     $table = ['admin', 'student', 'teacher', 'judge'];
@@ -96,7 +96,7 @@
         #home:hover {
             cursor: pointer;
         }
-        #logout {
+        #home, #logout {
             text-decoration: none;
             color : white;
         }
@@ -109,7 +109,9 @@
 </head>
 <body>
 	<div class="navbar">
-        <div class="site-name" onclick="goBack()" id="home">高雄大學學生創意競賽</div>
+        <div class="site-name">
+            <a href="../../view/console.php" id="home">高雄大學學生創意競賽</a>
+        </div>
         <div class="auth-links">
             <a href="logout.php" id="logout">登出</a>
         </div>

@@ -77,7 +77,7 @@
         }
 
         mysqli_commit($link);
-        echo "<script>alert('帳號註冊成功！請登入'); window.location.href = '../login.php';</script>";
+        echo "<script>alert('帳號註冊成功！請登入'); window.location.href = 'login.php';</script>";
     } catch(Exception $e) {
         mysqli_rollback($link);
         handleError($e->getMessage());

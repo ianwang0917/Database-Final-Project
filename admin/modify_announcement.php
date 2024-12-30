@@ -1,46 +1,47 @@
 <?php
-include("connection.php");
+    require_once("../library/connection.php");
 
-// 建立資料庫連接
-$select_db = @mysqli_select_db($link, "competition");
-if (!$select_db) {
-    echo "<br>找不到資料庫!<br>";
-    exit();
-}
-
-// 處理修改公告的表單提交邏輯
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_announcement"])) {
-    $aid = mysqli_real_escape_string($link, $_POST["aid"]);
-    $title = mysqli_real_escape_string($link, $_POST["title"]);
-    $content = mysqli_real_escape_string($link, $_POST["content"]);
-    $datetime = mysqli_real_escape_string($link, $_POST["datetime"]);
-
-    $update_query = "UPDATE announcement 
-                     SET title = '$title', content = '$content', datetime = '$datetime' 
-                     WHERE aid = '$aid'";
-
-    if (mysqli_query($link, $update_query)) {
-        echo "<script>alert('公告已成功更新！');</script>";
-    } else {
-        echo "<script>alert('公告更新失敗：" . mysqli_error($link) . "');</script>";
+    // 建立資料庫連接
+    $select_db = @mysqli_select_db($link, "competition");
+    if (!$select_db) {
+        echo "<br>找不到資料庫!<br>";
+        exit();
     }
-}
 
-// 從資料庫中查詢所有公告資料
-$sql_query_announcements = "SELECT aid, title, content, datetime FROM announcement ORDER BY datetime DESC";
-$result_announcements = mysqli_query($link, $sql_query_announcements);
+    // 處理修改公告的表單提交邏輯
+    if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["update_announcement"])) {
+        $aid = mysqli_real_escape_string($link, $_POST["aid"]);
+        $title = mysqli_real_escape_string($link, $_POST["title"]);
+        $content = mysqli_real_escape_string($link, $_POST["content"]);
+        $datetime = mysqli_real_escape_string($link, $_POST["datetime"]);
 
-// 檢查查詢結果
-$announcements = [];
-if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
-    while ($row = mysqli_fetch_assoc($result_announcements)) {
-        $announcements[] = $row; // 儲存每一筆公告資料
+        $update_query = "UPDATE announcement 
+                        SET title = '$title', content = '$content', datetime = '$datetime' 
+                        WHERE aid = '$aid'";
+
+        if (mysqli_query($link, $update_query)) {
+            echo "<script>alert('公告已成功更新！');</script>";
+        } else {
+            echo "<script>alert('公告更新失敗：" . mysqli_error($link) . "');</script>";
+        }
     }
-}
+
+    // 從資料庫中查詢所有公告資料
+    $sql_query_announcements = "SELECT aid, title, content, datetime FROM announcement ORDER BY datetime DESC";
+    $result_announcements = mysqli_query($link, $sql_query_announcements);
+
+    // 檢查查詢結果
+    $announcements = [];
+    if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
+        while ($row = mysqli_fetch_assoc($result_announcements)) {
+            $announcements[] = $row; // 儲存每一筆公告資料
+        }
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -68,7 +69,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             font-weight: bold;
         }
 
-        .announcement-container, .edit-container {
+        .announcement-container,
+        .edit-container {
             max-width: 1200px;
             margin: 30px auto;
             padding: 15px;
@@ -77,7 +79,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .announcement-header, .edit-header {
+        .announcement-header,
+        .edit-header {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
@@ -114,7 +117,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             font-weight: bold;
         }
 
-        .edit-container input, .edit-container textarea {
+        .edit-container input,
+        .edit-container textarea {
             margin-bottom: 15px;
             padding: 10px;
             border: 1px solid #ccc;
@@ -150,6 +154,7 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navbar -->
@@ -181,24 +186,24 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
     <div class="announcement-container">
         <div class="announcement-header">所有公告</div>
         <ul class="announcement-list">
-    <?php if (!empty($announcements)): ?>
-        <?php foreach ($announcements as $announcement): ?>
-            <li class="announcement-item">
-                <div class="announcement-title">
-                    ID：<?= htmlspecialchars($announcement["aid"]) ?> - <?= htmlspecialchars($announcement["title"]) ?>
-                </div>
-                <div class="announcement-date">
-                    發布日期：<?= htmlspecialchars($announcement["datetime"]) ?>
-                </div>
-                <div class="announcement-content">
-                    <?= nl2br(htmlspecialchars($announcement["content"])) ?>
-                </div>
-            </li>
-        <?php endforeach; ?>
-    <?php else: ?>
-        <li class="announcement-item">目前沒有公告。</li>
-    <?php endif; ?>
-</ul>
+            <?php if (!empty($announcements)): ?>
+                <?php foreach ($announcements as $announcement): ?>
+                    <li class="announcement-item">
+                        <div class="announcement-title">
+                            ID：<?= htmlspecialchars($announcement["aid"]) ?> - <?= htmlspecialchars($announcement["title"]) ?>
+                        </div>
+                        <div class="announcement-date">
+                            發布日期：<?= htmlspecialchars($announcement["datetime"]) ?>
+                        </div>
+                        <div class="announcement-content">
+                            <?= nl2br(htmlspecialchars($announcement["content"])) ?>
+                        </div>
+                    </li>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <li class="announcement-item">目前沒有公告。</li>
+            <?php endif; ?>
+        </ul>
     </div>
 
     <!-- Footer -->
@@ -210,4 +215,5 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
     </div>
 
 </body>
+
 </html>

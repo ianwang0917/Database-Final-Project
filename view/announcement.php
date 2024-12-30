@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+require_once("../library/connection.php");
 
 // 建立資料庫連接
 $select_db = @mysqli_select_db($link, "competition");

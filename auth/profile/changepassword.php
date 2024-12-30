@@ -1,7 +1,7 @@
 <?php
     session_start();
     if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
+        header("Location: ../login.php");
         exit();
     }
 ?>
@@ -82,8 +82,9 @@
         button:hover {
             background-color: #0056b3;
         }
-        #home:hover {
-            cursor: pointer;
+        #logout, #home {
+            text-decoration: none;
+            color: white;
         }
     </style>
     <script>
@@ -108,14 +109,13 @@
                 form.submit();
             }
         }
-        function goBack() {
-            window.history.back();
-        }
     </script>
 </head>
 <body>
 	<div class="navbar">
-        <div class="site-name" onclick="goBack()" id="home">高雄大學學生創意競賽</div>  
+        <div class="site-name" id="home">
+            <a href="../../view/console.php" id="home">高雄大學學生創意競賽</a>
+        </div>  
     </div>
     <div class="container">
         <h1>修改密碼</h1>

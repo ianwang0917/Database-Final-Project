@@ -1,58 +1,59 @@
 <?php
-include("connection.php");
+    require_once("../library/connection.php");
 
-// 建立資料庫連接
-$select_db = @mysqli_select_db($link, "competition");
-if (!$select_db) {
-    echo "<br>找不到資料庫!<br>";
-    exit();
-}
+    // 建立資料庫連接
+    $select_db = @mysqli_select_db($link, "competition");
+    if (!$select_db) {
+        echo "<br>找不到資料庫!<br>";
+        exit();
+    }
 
-// 新增公告處理邏輯
-$insert_success = null;
-$error_message = null;
+    // 新增公告處理邏輯
+    $insert_success = null;
+    $error_message = null;
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["aid"], $_POST["title"], $_POST["content"])) {
-    $aid = mysqli_real_escape_string($link, $_POST["aid"]); // 公告編號
-    $title = mysqli_real_escape_string($link, $_POST["title"]); // 公告標題
-    $content = mysqli_real_escape_string($link, $_POST["content"]); // 公告內容
-    $datetime = !empty($_POST["datetime"]) ? mysqli_real_escape_string($link, $_POST["datetime"]) : date("Y-m-d H:i:s");
-    $ssn = $_POST["ssn"];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["aid"], $_POST["title"], $_POST["content"])) {
+        $aid = mysqli_real_escape_string($link, $_POST["aid"]); // 公告編號
+        $title = mysqli_real_escape_string($link, $_POST["title"]); // 公告標題
+        $content = mysqli_real_escape_string($link, $_POST["content"]); // 公告內容
+        $datetime = !empty($_POST["datetime"]) ? mysqli_real_escape_string($link, $_POST["datetime"]) : date("Y-m-d H:i:s");
+        $ssn = $_POST["ssn"];
 
-    // 檢查公告編號是否重複
-    $check_duplicate_query = "SELECT aid FROM announcement WHERE aid = '$aid'";
-    $result_duplicate = mysqli_query($link, $check_duplicate_query);
+        // 檢查公告編號是否重複
+        $check_duplicate_query = "SELECT aid FROM announcement WHERE aid = '$aid'";
+        $result_duplicate = mysqli_query($link, $check_duplicate_query);
 
-    if (mysqli_num_rows($result_duplicate) > 0) {
-        $insert_success = false;
-        $error_message = "公告編號已存在，請使用其他編號！";
-    } else {
-        // 插入新的公告
-        $sql_insert = "INSERT INTO announcement (aid, ssn, title, content, datetime) VALUES ('$aid','$ssn' , '$title', '$content', '$datetime')";
-        if (mysqli_query($link, $sql_insert)) {
-            $insert_success = true;
-        } else {
+        if (mysqli_num_rows($result_duplicate) > 0) {
             $insert_success = false;
-            $error_message = "公告新增失敗，請重試！";
+            $error_message = "公告編號已存在，請使用其他編號！";
+        } else {
+            // 插入新的公告
+            $sql_insert = "INSERT INTO announcement (aid, ssn, title, content, datetime) VALUES ('$aid','$ssn' , '$title', '$content', '$datetime')";
+            if (mysqli_query($link, $sql_insert)) {
+                $insert_success = true;
+            } else {
+                $insert_success = false;
+                $error_message = "公告新增失敗，請重試！";
+            }
         }
     }
-}
 
-// 從資料庫中查詢所有公告資料
-$sql_query_announcements = "SELECT aid, title, content, datetime FROM announcement ORDER BY datetime DESC";
-$result_announcements = mysqli_query($link, $sql_query_announcements);
+    // 從資料庫中查詢所有公告資料
+    $sql_query_announcements = "SELECT aid, title, content, datetime FROM announcement ORDER BY datetime DESC";
+    $result_announcements = mysqli_query($link, $sql_query_announcements);
 
-// 檢查查詢結果
-$announcements = [];
-if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
-    while ($row = mysqli_fetch_assoc($result_announcements)) {
-        $announcements[] = $row; // 儲存每一筆公告資料
+    // 檢查查詢結果
+    $announcements = [];
+    if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
+        while ($row = mysqli_fetch_assoc($result_announcements)) {
+            $announcements[] = $row; // 儲存每一筆公告資料
+        }
     }
-}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +81,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             font-weight: bold;
         }
 
-        .announcement-container, .form-container {
+        .announcement-container,
+        .form-container {
             max-width: 1200px;
             margin: 30px auto;
             padding: 15px;
@@ -89,7 +91,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        .announcement-header, .form-header {
+        .announcement-header,
+        .form-header {
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
@@ -158,7 +161,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             gap: 10px;
         }
 
-        .form-container input, .form-container textarea {
+        .form-container input,
+        .form-container textarea {
             padding: 10px;
             font-size: 16px;
             border: 1px solid #ddd;
@@ -179,7 +183,8 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
             background-color: #0056b3;
         }
 
-        .success-message, .error-message {
+        .success-message,
+        .error-message {
             text-align: center;
             font-size: 18px;
             margin-bottom: 15px;
@@ -194,6 +199,7 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
         }
     </style>
 </head>
+
 <body>
 
     <!-- Navbar -->
@@ -253,4 +259,5 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
     </div>
 
 </body>
+
 </html>

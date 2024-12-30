@@ -1,5 +1,5 @@
 <?php
-    include("connection.php");
+    require_once("../library/connection.php");
     $ssn = $_GET["ssn"];
     $password = $_GET["password"];
 
@@ -21,7 +21,7 @@
             $sql_query2 = "SELECT * FROM $table[$i] WHERE `ssn` = '$ssn'";
             $result2 = mysqli_query($link, $sql_query2);
             if(mysqli_num_rows($result2)) {
-                $str = "Location: " . $table[$i] . ".php";
+                $str = "Location: ../view/console.php";
                 $_SESSION["identity"] = $table[$i];
                 header($str);
                 exit();

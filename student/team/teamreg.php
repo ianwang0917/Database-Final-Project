@@ -147,7 +147,7 @@
             </div>
         </form>
         <div class="form-footer">
-            <a href="../console.php">回到學生頁面</a>
+            <a href="../../view/console.php">回到控制面板</a>
         </div>
     </div>
 </body>

@@ -1,5 +1,5 @@
 <?php
-    include("connection.php");
+    require_once("../../library/connection.php");
     $currentPassword = $_POST["current-password"];
     $newPassword = $_POST["new-password"];
 
@@ -22,7 +22,7 @@
             if(mysqli_affected_rows($link) > 0) { // 有成功改密碼 (行數有影響)
                 session_destroy();
                 mysqli_close($link);
-                echo "<script>alert('密碼修改成功！請重新登入'); window.location.href = 'index.php';</script>";
+                echo "<script>alert('密碼修改成功！請重新登入'); window.location.href = '../../view/index.php';</script>";
                 exit();
             }
             else { // 失敗
