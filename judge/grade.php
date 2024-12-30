@@ -5,7 +5,7 @@ if (!isset($_SESSION["ssn"])) {
     exit();
 }
 
-include("connection.php");
+require_once("../library/connection.php");
 $select_db = @mysqli_select_db($link, "competition");
 if (!$select_db) {
     echo "<br>找不到資料庫!<br>";

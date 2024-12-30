@@ -171,7 +171,7 @@
         <div class="site-name">高雄大學學生創意競賽</div>
         <div class="auth-links">
             <a href="login.php">登入</a>
-            <a href="register.html">註冊</a>
+            <a href="register/register.html">註冊</a>
         </div>
     </div>
 

@@ -1,7 +1,7 @@
 <?php
     $thisyear = 2024;
 
-    include("connection.php");
+    require_once("../library/connection.php");
     $select_db = @mysqli_select_db($link, "competition");
     if (!$select_db) {
         echo "<br>找不到資料庫!<br>";
@@ -83,6 +83,6 @@
             $sql_query3 = "UPDATE `student` SET `tid` = '$tid' WHERE `ssn` = '$student[$i]'";
             $result3 = mysqli_query($link, $sql_query3);
         }
-        echo "<script>alert('成功建立隊伍！'); window.location.href = 'student.php';</script>";
+        echo "<script>alert('成功建立隊伍！'); window.location.href = '../console.php';</script>";
     }
 ?>

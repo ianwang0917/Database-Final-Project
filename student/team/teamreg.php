@@ -147,7 +147,7 @@
             </div>
         </form>
         <div class="form-footer">
-            <a href="student.php">回到學生頁面</a>
+            <a href="../console.php">回到學生頁面</a>
         </div>
     </div>
 </body>

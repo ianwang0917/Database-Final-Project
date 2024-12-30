@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>管理員註冊</title>
+    <title>指導老師註冊</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,7 +74,7 @@
 </head>
 <body>
     <div class="register-container">
-        <h1>管理員註冊</h1>
+        <h1>指導老師註冊</h1>
         <form action="register.php" method="POST">
             <div class="form-group">
                 <label for="name">姓名</label>
@@ -101,13 +101,17 @@
                 <input type="text" placeholder="N123456789" id="ssn" name="ssn" required>
             </div>
             <div class="form-group">
-                <input type="hidden" name="identity" value="admin">
+                <label for="degree">請提供您的最高學歷</label>
+                <input type="text" placeholder="例:國立高雄大學電機工程學系博士" id="degree" name="degree" required>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="identity" value="teacher">
                 <button type="submit">確認註冊</button>
             </div>
         </form>
         <div class="form-footer">
-            <p>已經有帳號了嗎? <a href="login.php">登入</a></p>
-            <p>回到 <a href="index.php">首頁</a></p>
+            <p>已經有帳號了嗎? <a href="../login.php">登入</a></p>
+            <p>回到 <a href="../index.php">首頁</a></p>
         </div>
     </div>
 </body>
