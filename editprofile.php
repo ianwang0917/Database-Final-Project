@@ -12,6 +12,9 @@
         exit();
     }
     
+    $sql = "SELECT * FROM `user` WHERE `ssn` = '$_SESSION[ssn]'";
+    $result = mysqli_query($link, $sql);
+    $row = mysqli_fetch_assoc($result);
 ?>
 
 <!DOCTYPE html>
@@ -113,50 +116,47 @@
     </div>
     <div class="container">
         <h1>修改個人資料</h1>
-        <form action="" method="POST">
+        <form action="updateprofile.php" method="POST">
             <label for="">姓名</label>
-            <input type="text" id="" name="" required>
+            <input type="text" id="" name="name" value="<?php echo $row["name"]?>" required>
 
             <label for="">電話號碼</label>
-            <input type="text" id="" name="" required>
+            <input type="text" id="" name="phonenumber" value="<?php echo $row["phonenumber"]?>" required>
 
             <label for="">居住地址</label>
-            <input type="text" id="" name="" required>
+            <input type="text" id="" name="address" value="<?php echo $row["address"]?>" required>
 
             <label for="">電子信箱(Email)</label>
-            <input type="text" id="" name="" required>
+            <input type="text" id="" name="email" value="<?php echo $row["email"]?>" required>
 
             <?php
-                if($_SESSION["identity"] == "admin") {
-                    echo
-                    '
-                    <label for="">工作內容</label>
-                    <input type="text" id="" name="" required>
-                    ';
-                } else if($_SESSION["identity"] == "student") {
-                    echo
-                    '
+                if($_SESSION["identity"] == "student") {
+                    $sql = "SELECT * FROM student WHERE ssn = '$_SESSION[ssn]'";
+                    $result = mysqli_query($link, $sql);
+                    $row = mysqli_fetch_assoc($result);
+                    echo'
                     <label for="">系所</label>
-                    <input type="text" id="" name="" required>
+                    <input type="text" id="" name="department" value="'.$row["department"].'" required>
 
                     <label for="">年級</label>
-                    <input type="text" id="" name="" required>
+                    <input type="text" id="" name="grade" value="'.$row["grade"].'" required>
 
                     <label for="">學號</label>
-                    <input type="text" id="" name="" required>
-                    ';
+                    <input type="text" id="" name="sid" value="'.$row["sid"].'" required>';
                 } else if($_SESSION["identity"] == "teacher") {
-                    echo
-                    '
+                    $sql = "SELECT * FROM teacher WHERE ssn = '$_SESSION[ssn]'";
+                    $result = mysqli_query($link, $sql);
+                    $row = mysqli_fetch_assoc($result);
+                    echo'
                     <label for="">學歷</label>
-                    <input type="text" id="" name="" required>
-                    ';
+                    <input type="text" id="" name="degree" value="'.$row["degree"].'" required>';
                 } else if($_SESSION["identity"] == "judge") {
-                    echo
-                    '
+                    $sql = "SELECT * FROM judge WHERE ssn = '$_SESSION[ssn]'";
+                    $result = mysqli_query($link, $sql);
+                    $row = mysqli_fetch_assoc($result);
+                    echo'
                     <label for="">頭銜</label>
-                    <input type="text" id="" name="" required>
-                    ';
+                    <input type="text" id="" name="title" value="'.$row["title"].'" required>';
                 }
             ?>
 

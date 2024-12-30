@@ -114,6 +114,10 @@
             text-decoration: none;
             color : white;
         }
+        #home {
+            text-decoration: none;
+            color : white;
+        }
     </style>
 </head>
 <body>
