@@ -144,7 +144,7 @@
             <div class="section-title">功能選單</div>
             <div class="buttons">
                 <button onclick="location.href='changepassword.php'">修改密碼</button>
-                <button onclick="location.href=''">修改個資</button>
+                <button onclick="location.href='editprofile.php'">修改個資</button>
                 <button onclick="location.href=''">指導學生之資料/作品</button>
                 <button onclick="location.href='browse-projects.html'">瀏覽歷屆作品</button>
             </div>

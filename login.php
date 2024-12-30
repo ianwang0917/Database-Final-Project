@@ -5,6 +5,7 @@
     $select_db = @mysqli_select_db($link, "competition");
     if (!$select_db) {
         echo "<br>找不到資料庫!<br>";
+        exit();
     }
     if(isset($_SESSION["ssn"])){ 
         $ssn = $_SESSION["ssn"];
