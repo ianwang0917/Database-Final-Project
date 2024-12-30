@@ -22,6 +22,7 @@
             $result2 = mysqli_query($link, $sql_query2);
             if(mysqli_num_rows($result2)) {
                 $str = "Location: " . $table[$i] . ".php";
+                $_SESSION["identity"] = $table[$i];
                 header($str);
                 exit();
                 break;

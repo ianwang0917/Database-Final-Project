@@ -1,7 +1,7 @@
 <?php
     session_start();
-    if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
+    if($_SESSION["identity"] != "teacher"){
+        header("Location: " . $_SESSION["identity"] .".php");
         exit();
     }
     include("connection.php");

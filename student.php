@@ -1,7 +1,7 @@
 <?php
     session_start();
-    if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
+    if($_SESSION["identity"] != "student"){
+        header("Location: " . $_SESSION["identity"] .".php");
         exit();
     }
     include("connection.php");
@@ -108,11 +108,17 @@
             text-decoration: none;
             color : white;
         }
+        #home {
+            text-decoration: none;
+            color : white;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="site-name">
+            <a href="student.php" id="home">高雄大學學生創意競賽</a>
+        </div>
         <div class="auth-links">
             <a href="logout.php" id="logout">登出</a>
         </div>
@@ -138,7 +144,7 @@
             <div class="buttons">
                 <button onclick="location.href='changepassword.php'">修改密碼</button>
                 <button onclick="location.href=''">修改個資</button>
-                <button onclick="location.href='teamreg.html'">報名/修改團隊資訊</button>
+                <button onclick="location.href='teamreg.php'">報名/修改團隊資訊</button>
 				<button onclick="location.href='project_management.html'">上傳作品</button>
                 <button onclick="location.href='browse-project.html'">瀏覽歷屆作品</button>
             </div>

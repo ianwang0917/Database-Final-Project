@@ -82,6 +82,9 @@
         button:hover {
             background-color: #0056b3;
         }
+        #home:hover {
+            cursor: pointer;
+        }
     </style>
     <script>
         // 表單提交前確認
@@ -105,11 +108,14 @@
                 form.submit();
             }
         }
+        function goBack() {
+            window.history.back();
+        }
     </script>
 </head>
 <body>
 	<div class="navbar">
-        <div class="site-name">高雄大學學生創意競賽</div>  
+        <div class="site-name" onclick="goBack()" id="home">高雄大學學生創意競賽</div>  
     </div>
     <div class="container">
         <h1>修改密碼</h1>

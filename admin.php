@@ -1,7 +1,7 @@
 <?php
     session_start();
-    if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
+    if($_SESSION["identity"] != "admin"){
+        header("Location: " . $_SESSION["identity"] .".php");
         exit();
     }
     include("connection.php");
@@ -118,7 +118,9 @@
 </head>
 <body>
     <div class="navbar">
-        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="site-name">
+            <a href="admin.php" id="home">高雄大學學生創意競賽</a>
+        </div>
         <div class="auth-links">
             <a href="logout.php" id="logout">登出</a>
         </div>
@@ -142,7 +144,7 @@
                 <button onclick="location.href='changepassword.php'">修改密碼</button>
                 <button onclick="location.href='create_announcement.php'">新增公告</button>
                 <button onclick="location.href='modify_announcement.php'">修改公告</button>
-                <button onclick="location.href=''">獲得所有使用者報表</button>
+                <button onclick="location.href='allusers.php'">獲得所有使用者報表</button>
             </div>
         </div>
     </div>

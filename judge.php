@@ -1,7 +1,7 @@
 <?php
     session_start();
-    if(!isset($_SESSION["ssn"])){
-        header("Location: index.php");
+    if($_SESSION["identity"] != "judge"){
+        header("Location: " . $_SESSION["identity"] .".php");
         exit();
     }
     include("connection.php");
@@ -117,11 +117,17 @@
             text-decoration: none;
             color : white;
         }
+        #home {
+            text-decoration: none;
+            color : white;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="site-name">
+            <a href="judge.php" id="home">高雄大學學生創意競賽</a>
+        </div>
         <div class="auth-links">
             <a href="logout.php" id="logout">登出</a>
         </div>
