@@ -20,7 +20,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            background-color: #007BFF;
+            background-color: #c5a562;
             color: white;
             position: relative;
         }
@@ -32,6 +32,7 @@
 
         .navbar .site-name {
             font-size: 28px;
+            color: #101020;
             font-weight: bold;
             position: absolute;
             left: 50%;
@@ -39,7 +40,7 @@
         }
 
         .navbar .auth-links a {
-            color: white;
+            color: #101020;
             text-decoration: none;
             margin-left: 15px;
             font-size: 16px;
@@ -82,8 +83,8 @@
         }
 
         .announcement-header {
-            background-color: #007BFF;
-            color: white;
+            background-color: #c5a562;
+            color: #101020 ;
             padding: 15px;
             font-size: 20px;
             font-weight: bold;
@@ -92,7 +93,7 @@
         }
 
         .announcement-header:hover {
-            background-color: #0056b3;
+            background-color:  #d5c6ac;
         }
 
         .announcement-list {
@@ -232,3 +233,4 @@
 
 </body>
 </html>
+

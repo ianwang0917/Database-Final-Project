@@ -1,10 +1,10 @@
 <?php
     session_start();
     if(!isset($_SESSION["ssn"])){
-        header("Location: ../../view/index.php");
+        header("Location: index.php");
         exit();
     }
-    require_once("../../library/connection.php");
+    include("connection.php");
     $select_db = @mysqli_select_db($link, "competition");
     if (!$select_db) {
         echo "<br>找不到資料庫!<br>";
@@ -31,7 +31,7 @@
             }
 
             mysqli_commit($link);
-            echo "<script>alert('資料修改成功！'); window.location.href = '../../view/console.php';</script>";
+            echo "<script>alert('資料修改成功！'); window.location.href = 'student.php';</script>";
         } catch (Exception $e) {
             mysqli_rollback($link);
             echo "Error: " . $e->getMessage();
@@ -56,7 +56,7 @@
             }
 
             mysqli_commit($link);
-            echo "<script>alert('資料修改成功！'); window.location.href = '../../view/console.php';</script>";
+            echo "<script>alert('資料修改成功！'); window.location.href = 'student.php';</script>";
         } catch (Exception $e) {
             mysqli_rollback($link);
             echo "Error: " . $e->getMessage();
@@ -81,7 +81,7 @@
             }
 
             mysqli_commit($link);
-            echo "<script>alert('資料修改成功！'); window.location.href = '../../view/console.php';</script>";
+            echo "<script>alert('資料修改成功！'); window.location.href = 'student.php';</script>";
         } catch (Exception $e) {
             mysqli_rollback($link);
             echo "Error: " . $e->getMessage();
