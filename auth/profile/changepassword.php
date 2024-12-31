@@ -40,7 +40,7 @@
             font-weight: bold;
             position: absolute;
             left: 50%;
-            transform: translateX(-50%);d;
+            transform: translateX(-50%);
         }
         .navbar .auth-links a {
             color: #101020;

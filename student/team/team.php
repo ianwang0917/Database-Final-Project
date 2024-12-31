@@ -216,7 +216,7 @@ while ($row = mysqli_fetch_assoc($result_students)) {
             <div class="buttons">
                 <?php if ($identity === "student"): ?>
                     <button onclick="location.href='../../student/team/edit_team.php'">修改隊伍資料</button>
-                    <button onclick="location.href='../../student/project_management.html'">上傳作品</button>
+                    <button onclick="location.href='../project_management.php'">上傳作品</button>
                 <?php endif; ?>
                 <button onclick="location.href='../../view/browse-project.php'">瀏覽作品</button>
             </div>
