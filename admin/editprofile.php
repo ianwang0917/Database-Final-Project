@@ -1,18 +1,21 @@
 <?php
-    require_once("../../library/connection.php");
     session_start();
-    if(!isset($_SESSION["ssn"])){
-        header("Location: ../login.php");
+    if($_SESSION["identity"] != "admin") {
+        echo "<script>alert('你無權使用此頁面！'); window.history.back();</script>";
         exit();
     }
-    $table = ['admin', 'student', 'teacher', 'judge'];
+
+    require_once("../library/connection.php");
     $select_db = @mysqli_select_db($link, "competition");
-    if (!$select_db) {
+    if(!$select_db) {
         echo "<br>找不到資料庫!<br>";
         exit();
     }
-    
-    $sql = "SELECT * FROM `user` WHERE `ssn` = '$_SESSION[ssn]'";
+
+    $identity = $_GET["identity"];
+    $ssn = $_GET["ssn"];
+
+    $sql = "SELECT * FROM `user` WHERE `ssn` = '$ssn'";
     $result = mysqli_query($link, $sql);
     $row = mysqli_fetch_assoc($result);
 ?>
@@ -22,7 +25,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>修改個人資料</title>
+    <title>修改資料</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -34,38 +37,23 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 30px;
-            background-color: #c5a562;
+            padding: 10px 20px;
+            background-color: #007BFF;
             color: white;
-            position: relative;
         }
-        .navbar .logo img {
-            height: 50px;
-            margin-right: 15px;
-        }
-
         .navbar .site-name {
-            font-size: 28px;
-            color: #101020;
+            font-size: 24px;
             font-weight: bold;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
         }
-
         .navbar .auth-links a {
-            color: #101020;
+            color: white;
             text-decoration: none;
             margin-left: 15px;
             font-size: 16px;
-            transition: color 0.3s ease;
         }
-
         .navbar .auth-links a:hover {
-            color: #ffeb3b;
             text-decoration: underline;
         }
-
         .container {
             max-width: 500px;
             margin: 50px auto;
@@ -123,20 +111,23 @@
     </script>
 </head>
 <body>
-    <div class="navbar">
-        <div class="logo">
-            <img src="../../img/logo.png" alt="Logo">
-        </div>
-        <div class="site-name">高雄大學學生創意競賽</div>
-        <div class="auth-links">
-            <a href="../../view/console.php">返回個人資料</a>
+	<div class="navbar">
+        <div class="site-name">
+            <a href="../view/allusers.php" id="home">高雄大學學生創意競賽</a>
         </div>
     </div>
     <div class="container">
         <h1>修改個人資料</h1>
         <form action="updateprofile.php" method="POST">
+            <label for="">身分證字號(ssn)</label>
+            <input type="text" id="" name="" value="<?php echo $row["ssn"]?>" disabled>
+            <input type="hidden" name="ssn" value="<?php echo $row["ssn"]?>">
+
             <label for="">姓名</label>
             <input type="text" id="" name="name" value="<?php echo $row["name"]?>" required>
+
+            <label for="">密碼</label>
+            <input type="text" id="" name="password" value="<?php echo $row["password"]?>" required>
 
             <label for="">電話號碼</label>
             <input type="text" id="" name="phonenumber" value="<?php echo $row["phonenumber"]?>" required>
@@ -148,11 +139,11 @@
             <input type="text" id="" name="email" value="<?php echo $row["email"]?>" required>
 
             <?php
-                if($_SESSION["identity"] == "student") {
-                    $sql = "SELECT * FROM student WHERE ssn = '$_SESSION[ssn]'";
+                if($identity == "student") {
+                    $sql = "SELECT * FROM student WHERE ssn = '$ssn'";
                     $result = mysqli_query($link, $sql);
                     $row = mysqli_fetch_assoc($result);
-                    echo'
+                    echo '
                     <label for="">系所</label>
                     <input type="text" id="" name="department" value="'.$row["department"].'" required>
 
@@ -160,21 +151,30 @@
                     <input type="text" id="" name="grade" value="'.$row["grade"].'" required>
 
                     <label for="">學號</label>
-                    <input type="text" id="" name="sid" value="'.$row["sid"].'" required>';
-                } else if($_SESSION["identity"] == "teacher") {
-                    $sql = "SELECT * FROM teacher WHERE ssn = '$_SESSION[ssn]'";
+                    <input type="text" id="" name="sid" value="'.$row["sid"].'" required>
+                    
+                    <input type="hidden" name="identity" value="student">'; 
+                } else if($identity == "teacher") {
+                    $sql = "SELECT * FROM teacher WHERE ssn = '$ssn'";
                     $result = mysqli_query($link, $sql);
                     $row = mysqli_fetch_assoc($result);
-                    echo'
+                    echo '
                     <label for="">學歷</label>
-                    <input type="text" id="" name="degree" value="'.$row["degree"].'" required>';
-                } else if($_SESSION["identity"] == "judge") {
-                    $sql = "SELECT * FROM judge WHERE ssn = '$_SESSION[ssn]'";
+                    <input type="text" id="" name="degree" value="'.$row["degree"].'" required>
+                    
+                    <input type="hidden" name="identity" value="teacher">';
+                } else if($identity == "judge") {
+                    $sql = "SELECT * FROM judge WHERE ssn = '$ssn'";
                     $result = mysqli_query($link, $sql);
                     $row = mysqli_fetch_assoc($result);
                     echo'
                     <label for="">頭銜</label>
-                    <input type="text" id="" name="title" value="'.$row["title"].'" required>';
+                    <input type="text" id="" name="title" value="'.$row["title"].'" required>
+                    
+                    <input type="hidden" name="identity" value="judge">';
+                } else {
+                    echo '
+                    <input type=hidden name="identity" value="admin">';
                 }
             ?>
 

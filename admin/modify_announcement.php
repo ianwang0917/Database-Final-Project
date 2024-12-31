@@ -1,6 +1,11 @@
 <?php
     require_once("../library/connection.php");
 
+    session_start();
+    if($_SESSION["identity"] != "admin") {
+        echo "<script>alert('你無權使用此頁面！');windows.history.back();</script>";
+    }
+
     // 建立資料庫連接
     $select_db = @mysqli_select_db($link, "competition");
     if (!$select_db) {
@@ -55,19 +60,44 @@
             color: #333;
         }
 
-        .navbar {
+       /* Navbar Styling */
+       .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            background-color: #007BFF;
+            background-color: #c5a562;
             color: white;
+            position: relative;
+        }
+
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 15px;
         }
 
         .navbar .site-name {
             font-size: 28px;
+            color: #101020;
             font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
+
+        .navbar .auth-links a {
+            color: #101020;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .auth-links a:hover {
+            color: #ffeb3b;
+            text-decoration: underline;
+        }
+
 
         .announcement-container,
         .edit-container {
@@ -157,9 +187,15 @@
 
 <body>
 
-    <!-- Navbar -->
-    <div class="navbar">
+     <!-- Navbar -->
+     <div class="navbar">
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
+        </div>
         <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="auth-links">
+        <a href="../view/console.php">返回個人資料</a>
+        </div>
     </div>
 
     <!-- Edit Announcement Section -->
