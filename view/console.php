@@ -3,7 +3,7 @@
     // Validate session and redirect if needed
     $allowed_identities = ["admin", "judge", "student", "teacher"];
     if (!isset($_SESSION["identity"]) || !in_array($_SESSION["identity"], $allowed_identities)) {
-        header("Location: login.php");
+        header("Location: ../auth/login.php");
         exit();
     }
     
@@ -210,8 +210,8 @@
                 <?php endif; ?>
                 
                 <?php if ($identity == 'student'): ?>
-                    <button onclick="location.href='../student/team/teamreg.php'">報名/修改團隊資訊</button>
-                    <button onclick="location.href='../student/project_management.php'">上傳作品</button>
+                    <button onclick="location.href='../student/team/teamreg.php'">團隊報名</button>
+                    <button onclick="location.href='../student/team/team.php'">團隊資訊</button>
                     <button onclick="location.href='../view/browse-project.php'">瀏覽歷屆作品</button>
                 <?php endif; ?>
                 

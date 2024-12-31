@@ -41,15 +41,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["tid"], $_POST["name"]
     }
 }
 
-// 查詢所有作品
-$sql_query_projects = "SELECT * FROM piece ORDER BY pid DESC";
-$result_projects = $link->query($sql_query_projects);
-$projects = [];
-if ($result_projects && $result_projects->num_rows > 0) {
-    while ($row = $result_projects->fetch_assoc()) {
-        $projects[] = $row;
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -65,22 +56,44 @@ if ($result_projects && $result_projects->num_rows > 0) {
             margin: 0;
             padding: 0;
         }
-        .navbar {
-            background-color: #007BFF;
-            padding: 10px 20px;
-            color: white;
+         /* Navbar Styling */
+         .navbar {
             display: flex;
             justify-content: space-between;
-        }
-        .navbar a {
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #c5a562;
             color: white;
+            position: relative;
+        }
+
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .navbar .site-name {
+            font-size: 28px;
+            color: #101020;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar .auth-links a {
+            color: #101020;
             text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
         }
-        .container {
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
+
+        .navbar .auth-links a:hover {
+            color: #ffeb3b;
+            text-decoration: underline;
         }
+
         h1 {
             text-align: center;
         }
@@ -126,9 +139,15 @@ if ($result_projects && $result_projects->num_rows > 0) {
     </style>
 </head>
 <body>
+
+        
+    <!-- Navbar -->
     <div class="navbar">
-        <div>高雄大學學生創意競賽</div>
-        <div>
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
+        </div>
+        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="auth-links">
             <a href="../view/console.php">回到學生頁面</a>
         </div>
     </div>
@@ -171,21 +190,6 @@ if ($result_projects && $result_projects->num_rows > 0) {
                 <button type="submit">新增</button>
             </div>
         </form>
-
-        <div class="project-list">
-            <?php foreach ($projects as $project): ?>
-                <div class="project-item">
-                    <h3><?= htmlspecialchars($project['name']) ?></h3>
-                    <p>隊伍編號：<?= htmlspecialchars($project['tid']) ?></p>
-                    <p><a href="<?= htmlspecialchars($project['demo']) ?>" target="_blank">展示連結</a></p>
-                    <p><a href="<?= htmlspecialchars($project['poster']) ?>" target="_blank">海報連結</a></p>
-                    <?php if (!empty($project['code'])): ?>
-                        <p><a href="<?= htmlspecialchars($project['code']) ?>" target="_blank">程式碼連結</a></p>
-                    <?php endif; ?>
-                    <p><a href="<?= htmlspecialchars($project['document']) ?>" target="_blank">文件連結</a></p>
-                </div>
-            <?php endforeach; ?>
-        </div>
     </div>
 </body>
 </html>
