@@ -24,6 +24,7 @@
             margin: 0;
             background-color: #f4f4f9;
         }
+        
         .login-container {
             width: 100%;
             max-width: 400px;
