@@ -189,3 +189,4 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
 
 </body>
 </html>
+
