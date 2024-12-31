@@ -32,7 +32,7 @@
             }
 
             mysqli_commit($link);
-            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php';</script>";
+            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php?identity=student';</script>";
         } catch (Exception $e) {
             mysqli_rollback($link);
             echo "Error: " . $e->getMessage();
@@ -58,7 +58,7 @@
             }
 
             mysqli_commit($link);
-            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php';</script>";
+            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php?identity=teacher';</script>";
         } catch (Exception $e) {
             mysqli_rollback($link);
             echo "Error: " . $e->getMessage();
@@ -84,7 +84,26 @@
             }
 
             mysqli_commit($link);
-            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php';</script>";
+            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php?identity=judge';</script>";
+        } catch (Exception $e) {
+            mysqli_rollback($link);
+            echo "Error: " . $e->getMessage();
+            exit();
+        } finally {
+            mysqli_close($link);
+        }
+    } else if($identity == "admin") {
+        try {
+            $sql1 = "UPDATE `user` SET `ssn` = '$_POST[ssn]', `name` = '$_POST[name]', `password` = '$_POST[password]', `phonenumber` = '$_POST[phonenumber]',
+                `address` = '$_POST[address]', `email` = '$_POST[email]' WHERE `ssn` = '$ssn'";
+            $result1 = mysqli_query($link, $sql1);
+
+            if (!$result1 || mysqli_affected_rows($link) === -1) {
+                throw new Exception("更新使用者資料失敗！請稍後再試");
+            }
+
+            mysqli_commit($link);
+            echo "<script>alert('資料修改成功！'); window.location.href = '../view/allusers.php?identity=judge';</script>";
         } catch (Exception $e) {
             mysqli_rollback($link);
             echo "Error: " . $e->getMessage();
