@@ -4,7 +4,7 @@
     // Validate session and redirect if needed
     $allowed_identities = ["admin", "judge", "student", "teacher"];
     if (!isset($_SESSION["identity"]) || !in_array($_SESSION["identity"], $allowed_identities)) {
-        header("Location: login.php");
+        header("Location: ../auth/login.php");
         exit();
     }
     

@@ -165,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="navbar">
         <div class="site-name">高雄大學學生創意競賽</div>
         <div class="auth-links">
-            <a href="logout.php" id="logout">登出</a>
+            <a href="../auth/logout.php" id="logout">登出</a>
         </div>
     </div>
     <div class="main-content">
