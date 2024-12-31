@@ -55,21 +55,35 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background-color: #007BFF;
+            padding: 15px 30px;
+            background-color: #c5a562;
             color: white;
+            position: relative;
         }
+
+        
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
         .navbar .site-name {
-            font-size: 24px;
+            font-size: 28px;
+            color: #101020;
             font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
         .navbar .auth-links a {
-            color: white;
+            color: #101020;
             text-decoration: none;
             margin-left: 15px;
             font-size: 16px;
+            transition: color 0.3s ease;
         }
         .navbar .auth-links a:hover {
+            color: #ffeb3b;
             text-decoration: underline;
         }
         .main-content {
@@ -88,7 +102,7 @@
             font-weight: bold;
             color: #333;
             margin-bottom: 10px;
-            border-bottom: 2px solid #007BFF;
+            border-bottom: 2px solid #337db5a1;
             padding-bottom: 5px;
         }
         .personal-info {
@@ -122,12 +136,15 @@
         }
         #logout, #home {
             text-decoration: none;
-            color: white;
+            color: #101020;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
+        </div>
         <div class="site-name">
             <a href="#" id="home">高雄大學學生創意競賽</a>
         </div>

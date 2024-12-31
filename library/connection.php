@@ -2,7 +2,7 @@
 
     $location = "localhost";
     $account = "root";
-    $password = "";
+    $password = "345789123";
 
     if(isset($location) && isset($account) && isset($password)) {
         $link = mysqli_connect($location, $account, $password);

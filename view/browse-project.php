@@ -7,17 +7,43 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            background-color: #f9fafc;
+            color: #333;
         }
         .navbar {
-            background-color: #007BFF;
-            padding: 10px 20px;
-            color: white;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #c5a562;
+            color: white;
+            position: relative;
         }
+
+        .navbar .site-name {
+            font-size: 28px;
+            color: #101020;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar .auth-links a {
+            color: #101020;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .auth-links a:hover {
+            color: #ffeb3b;
+            text-decoration: underline;
+        }
+
         .navbar a {
             color: white;
             text-decoration: none;
@@ -69,10 +95,14 @@
     </style>
 </head>
 <body>
+
     <div class="navbar">
-        <div>高雄大學學生創意競賽</div>
-        <div>
-            <a href="console.php">返回</a>
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
+        </div>
+        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="auth-links">
+            <a href="../view/console.php">返回個人資料</a>
         </div>
     </div>
     
