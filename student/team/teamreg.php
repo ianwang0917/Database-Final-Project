@@ -20,7 +20,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            background: #f0f4f8;
             color: #fff;
         }
         .registration-container {
@@ -31,12 +31,12 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
             border-radius: 12px;
             color: #333;
-            margin-top: 250px; /* Move the whole form down */
+            margin-top: 450px; /* Move the whole form down */
         }
         .registration-container h1 {
             text-align: center;
             margin-bottom: 24px;
-            font-size: 28px;
+            font-size: 32px;
             color: #333;
         }
         .form-group {
@@ -147,8 +147,9 @@
             </div>
         </form>
         <div class="form-footer">
-            <a href="../../view/console.php">回到控制面板</a>
+            <a href="../../view/console.php">回到個人頁面</a>
         </div>
     </div>
 </body>
 </html>
+

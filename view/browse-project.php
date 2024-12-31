@@ -1,3 +1,25 @@
+
+<?php
+require_once("../library/connection.php");
+
+// 建立資料庫連接
+$select_db = @mysqli_select_db($link, "competition");
+if (!$select_db) {
+    echo "<br>找不到資料庫!<br>";
+    exit();
+}
+
+// 從資料庫查詢所有作品
+$sql_query_projects = "SELECT * FROM piece ORDER BY pid DESC";
+$result_projects = $link->query($sql_query_projects);
+$projects = [];
+if ($result_projects && $result_projects->num_rows > 0) {
+    while ($row = $result_projects->fetch_assoc()) {
+        $projects[] = $row;
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="zh-Hant-TW">
 <head>
@@ -7,17 +29,43 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            background-color: #f9fafc;
+            color: #333;
         }
         .navbar {
-            background-color: #007BFF;
-            padding: 10px 20px;
-            color: white;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #c5a562;
+            color: white;
+            position: relative;
         }
+
+        .navbar .site-name {
+            font-size: 28px;
+            color: #101020;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar .auth-links a {
+            color: #101020;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .auth-links a:hover {
+            color: #ffeb3b;
+            text-decoration: underline;
+        }
+
         .navbar a {
             color: white;
             text-decoration: none;
@@ -69,14 +117,18 @@
     </style>
 </head>
 <body>
+
     <div class="navbar">
-        <div>高雄大學學生創意競賽</div>
-        <div>
-            <a href="console.php">返回</a>
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
+        </div>
+        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="auth-links">
+            <a href="../view/console.php">返回個人資料</a>
         </div>
     </div>
     
-    <div class="container">
+     <div class="container">
         <h1>歷屆學生作品展示</h1>
         
         <div class="filter-section">
@@ -84,36 +136,26 @@
         </div>
 
         <div id="projectList" class="project-list">
-            <!-- 作品將在這裡動態生成 -->
+            <?php if (!empty($projects)): ?>
+                <?php foreach ($projects as $project): ?>
+                    <div class="project-item">
+                        <h3><?= htmlspecialchars($project['name']) ?></h3>
+                        <p>隊伍編號：<?= htmlspecialchars($project['tid']) ?></p>
+                        <p><a href="<?= htmlspecialchars($project['demo']) ?>" target="_blank">展示連結</a></p>
+                        <p><a href="<?= htmlspecialchars($project['poster']) ?>" target="_blank">海報連結</a></p>
+                        <?php if (!empty($project['code'])): ?>
+                            <p><a href="<?= htmlspecialchars($project['code']) ?>" target="_blank">程式碼連結</a></p>
+                        <?php endif; ?>
+                        <p><a href="<?= htmlspecialchars($project['document']) ?>" target="_blank">文件連結</a></p>
+                    </div>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <p style="text-align:center;">目前尚無作品</p>
+            <?php endif; ?>
         </div>
     </div>
 
     <script>
-        function renderAllProjects() {
-            const projects = JSON.parse(localStorage.getItem('projects')) || [];
-            const projectList = document.getElementById('projectList');
-            projectList.innerHTML = '';
-
-            if (projects.length === 0) {
-                projectList.innerHTML = '<p style="text-align:center;">目前尚無作品</p>';
-                return;
-            }
-
-            projects.forEach(project => {
-                const projectDiv = document.createElement('div');
-                projectDiv.className = 'project-item';
-                projectDiv.innerHTML = `
-                    <h3>${project.title}</h3>
-                    <p>${project.description}</p>
-                    ${project.youtubeLink ? `<p><a href="${project.youtubeLink}" target="_blank">成果展示</a></p>` : ''}
-                    ${project.githubLink ? `<p><a href="${project.githubLink}" target="_blank">GitHub</a></p>` : ''}
-                    ${project.imageUrl ? `<img src="${project.imageUrl}" alt="作品圖片">` : ''}
-                    ${project.pdfUrl ? `<p><a href="${project.pdfUrl}" target="_blank">PDF 文件</a></p>` : ''}
-                `;
-                projectList.appendChild(projectDiv);
-            });
-        }
-
         function filterProjects() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const projects = document.getElementsByClassName('project-item');
@@ -123,9 +165,6 @@
                 project.style.display = title.includes(searchInput) ? 'block' : 'none';
             });
         }
-
-        // 頁面載入時渲染所有作品
-        window.onload = renderAllProjects;
     </script>
 </body>
 </html>
