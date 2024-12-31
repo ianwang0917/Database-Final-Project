@@ -12,21 +12,36 @@ if (!$select_db) {
 $sql_query_announcements = "SELECT title, content, datetime FROM announcement ORDER BY datetime DESC";
 $result_announcements = mysqli_query($link, $sql_query_announcements);
 
+$data_nums = mysqli_num_rows($result_announcements);
+$per = 5;
+$pages = ceil($data_nums / $per);
+if (isset($_GET["page"])) {
+    $page = $_GET["page"];
+} else {
+    header("Location: ?page=1");
+}
+
+$start = ($page - 1) * $per; // 每一頁開始的資料序號
+$sql = $sql_query_announcements . " LIMIT $start, $per";
+$result = mysqli_query($link, $sql);
+
 // 檢查查詢結果
 $announcements = [];
-if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
-    while ($row = mysqli_fetch_assoc($result_announcements)) {
+$data_nums = mysqli_num_rows($result);
+if ($result_announcements && $data_nums > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $announcements[] = $row; // 儲存每一筆公告資料
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant-TW">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View Announcements</title>
+    <title>高雄大學學生創意競賽</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -145,8 +160,53 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
         .footer a:hover {
             color: #ffeb3b;
         }
-    </style>
 
+        .pagination-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination {
+            display: inline-flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .pagination .page-item {
+            margin: 0 5px;
+        }
+
+        .pagination .page-link {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #007BFF;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .pagination .active .page-link {
+            background-color: #007BFF;
+            color: white;
+            cursor: default;
+        }
+
+       #index-link {
+            text-decoration: none;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
@@ -179,14 +239,28 @@ if ($result_announcements && mysqli_num_rows($result_announcements) > 0) {
         </ul>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>&copy; 2024 高雄大學學生創意競賽</p>
-        <a href="index.php">首頁</a>
-        <a href="#">關於我們</a>
-        <a href="#">聯繫方式</a>
+    <div class="pagination-container">
+        <?php
+        echo '<ul class="pagination">';
+        for ($i = 1; $i <= $pages; $i++) {
+            if ($i == $page) {
+                echo '<li class="page-item active"><span class="page-link">' . $i . '</span></li>';
+            } else {
+                echo '<li class="page-item"><a class="page-link" href="?page=' . $i . '">' . $i . '</a></li>';
+            }
+        }
+        echo '</ul>';
+        ?>
     </div>
 
+    <!-- Footer -->
+     <footer>
+        <div class="footer">
+            <p>&copy; 2024 高雄大學學生創意競賽</p>
+            <a href="index.php">首頁</a>
+            <a href="#">關於我們</a>
+            <a href="#">聯繫方式</a>
+        </div>
+     </footer>
 </body>
 </html>
-

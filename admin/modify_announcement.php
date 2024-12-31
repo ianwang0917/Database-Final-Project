@@ -1,6 +1,11 @@
 <?php
     require_once("../library/connection.php");
 
+    session_start();
+    if($_SESSION["identity"] != "admin") {
+        echo "<script>alert('你無權使用此頁面！');windows.history.back();</script>";
+    }
+
     // 建立資料庫連接
     $select_db = @mysqli_select_db($link, "competition");
     if (!$select_db) {
