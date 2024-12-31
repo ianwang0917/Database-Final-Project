@@ -90,6 +90,4 @@
             mysqli_close($link);
         }
     }
-
-    
 ?>
