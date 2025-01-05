@@ -13,7 +13,7 @@ if (!$select_db) {
 }
 
 $ssn = $_SESSION["ssn"];
-$identity = $_SESSION["identity"]; // 確認是學生還是教師
+$identity = $_SESSION["identity"]; // 確認是學生
 
 // 獲取隊伍 ID
 $team_id = null;
