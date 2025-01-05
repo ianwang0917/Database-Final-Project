@@ -202,6 +202,7 @@
                     <button onclick="location.href='../admin/create_announcement.php'">新增公告</button>
                     <button onclick="location.href='../admin/modify_announcement.php'">修改公告</button>
                     <button onclick="location.href='../view/allusers.php'">獲得所有使用者報表</button>
+                    <button onclick="location.href='../view/allteams.php'">獲得所有隊伍資訊報表</button>
                 <?php endif; ?>
                 
                 <?php if ($identity == 'judge'): ?>
@@ -216,7 +217,7 @@
                 <?php endif; ?>
                 
                 <?php if ($identity == 'teacher'): ?>
-                    <button onclick="location.href=''">指導學生之資料/作品</button>
+                    <button onclick="location.href='../student/team/team.php'">指導學生之資料/作品</button>
                     <button onclick="location.href='../view/browse-project.php'">瀏覽歷屆作品</button>
                 <?php endif; ?>
             </div>

@@ -33,27 +33,44 @@
             padding: 0;
             background-color: #f4f4f9;
         }
-		.navbar {
+		 /* Navbar Styling */
+         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background-color: #007BFF;
+            padding: 15px 30px;
+            background-color: #c5a562;
             color: white;
+            position: relative;
         }
+
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
         .navbar .site-name {
-            font-size: 24px;
+            font-size: 28px;
+            color: #101020;
             font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
+
         .navbar .auth-links a {
-            color: white;
+            color: #101020;
             text-decoration: none;
             margin-left: 15px;
             font-size: 16px;
+            transition: color 0.3s ease;
         }
+
         .navbar .auth-links a:hover {
+            color: #ffeb3b;
             text-decoration: underline;
         }
+
         .container {
             max-width: 500px;
             margin: 50px auto;
@@ -111,10 +128,13 @@
     </script>
 </head>
 <body>
-	<div class="navbar">
-        <div class="site-name">
-            <a href="../view/allusers.php" id="home">高雄大學學生創意競賽</a>
+	<!-- Navbar -->
+    <div class="navbar">
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
         </div>
+        <div class="site-name">高雄大學學生創意競賽</div>
+        
     </div>
     <div class="container">
         <h1>修改個人資料</h1>
