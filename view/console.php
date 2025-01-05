@@ -216,7 +216,7 @@
                 <?php endif; ?>
                 
                 <?php if ($identity == 'teacher'): ?>
-                    <button onclick="location.href=''">指導學生之資料/作品</button>
+                    <button onclick="location.href='../student/team/team.php'">指導學生之資料/作品</button>
                     <button onclick="location.href='../view/browse-project.php'">瀏覽歷屆作品</button>
                 <?php endif; ?>
             </div>

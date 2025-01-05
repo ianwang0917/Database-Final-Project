@@ -7,7 +7,6 @@ if ($_SESSION["identity"] != "student") {
 
 require_once("../library/connection.php");
 
-// 建立資料庫連接
 $select_db = @mysqli_select_db($link, "competition");
 if (!$select_db) {
     echo "<br>找不到資料庫!<br>";
@@ -20,46 +19,27 @@ $result = mysqli_query($link, $sql);
 $row = mysqli_fetch_assoc($result);
 $tid = $row["tid"];
 
-$sql = "SELECT * FROm `piece` WHERE `tid` = '$tid'";
+$sql = "SELECT t.name AS teamname, p.name, p.demo, p.poster, p.code, p.document FROM `piece` p INNER JOIN `team` t USING (`tid`) WHERE `tid` = '$tid'";
 $result = mysqli_query($link, $sql);
-if (mysqli_num_rows($result) > 0) {
-    echo "<script>alert('隊伍已存在作品！'); window.location.href = 'project_modify.php';</script>";
-    exit();
-}
+$piece = mysqli_fetch_assoc($result);
+?>
 
-$insert_success = null;
-$error_message = null;
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["name"], $_POST["demo"], $_POST["poster"], $_POST["code"], $_POST["document"])) {
+    $piecename = $_POST["name"];
+    $demo = $_POST["demo"];
+    $poster = $_POST["poster"];
+    $code = $_POST["code"];
+    $document = $_POST["document"];
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["tid"], $_POST["name"], $_POST["demo"], $_POST["poster"], $_POST["document"])) {
-    $tid = $link->real_escape_string($_POST["tid"]); // 隊伍編號
-    $name = $link->real_escape_string($_POST["name"]); // 作品名稱
-    $demo = $link->real_escape_string($_POST["demo"]); // 展示連結
-    $poster = $link->real_escape_string($_POST["poster"]); // 海報連結
-    $code = isset($_POST["code"]) ? $link->real_escape_string($_POST["code"]) : null; // 程式碼連結 (可選)
-    $document = $link->real_escape_string($_POST["document"]); // 文件連結
+    $sql = "UPDATE `piece` SET `name` = '$piecename', `demo` = '$demo', `poster` = '$poster', `code` = '$code', `document` = '$document' WHERE `tid` = '$tid'";
+    $result = mysqli_query($link, $sql);
 
-    // 檢查隊伍編號是否存在於資料庫
-    $sql_check_tid = "SELECT * FROM team WHERE tid = '$tid'";
-    $result_check_tid = $link->query($sql_check_tid);
-
-    if ($result_check_tid && $result_check_tid->num_rows > 0) {
-        //隊伍編號存在
-        $sql_insert = "INSERT INTO piece (tid, name, demo, poster, code, document) 
-                       VALUES ('$tid', '$name', '$demo', '$poster', " . ($code ? "'$code'" : "NULL") . ", '$document')";
-
-        if ($link->query($sql_insert) === TRUE) {
-            $insert_success = true;
-        } else {
-            $insert_success = false;
-            $error_message = "作品新增失敗：" . $link->error;
-        }
-    } else {
-        //隊伍編號不存在        
-        $insert_success = false;
-        $error_message = "錯誤：找不到隊伍編號 $tid";
+    if ($result) {
+        echo "<script>alert('作品資訊修改成功！'); window.location.href = '../view/console.php';</script>";
+        exit();
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -207,38 +187,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["tid"], $_POST["name"]
     </div>
 
     <div class="container">
-        <h1>新增作品</h1>
+        <h1>修改作品內容</h1>
         <h2><span id="red">請先自行上傳到雲端，再將網址填入！</span>(建議使用Google雲端並記得開啟共用！)</h2>
-        <?php if ($insert_success === true): ?>
-            <p style="color: green; text-align: center;">作品新增成功！</p>
-        <?php elseif ($insert_success === false): ?>
-            <p style="color: red; text-align: center;"><?= htmlspecialchars($error_message) ?></p>
-        <?php endif; ?>
-
         <form method="POST">
-            <input type="hidden" id="tid" name="tid" value="<?php echo $tid?>" required>
+            <div class="form-group">
+                <label for="name">隊伍名稱</label>
+                <input type="text" id="name" name="teamname" value="<?= htmlspecialchars($piece["teamname"]) ?>"disabled>
+            </div>
             <div class="form-group">
                 <label for="name">作品名稱</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text" id="name" name="name" value="<?= htmlspecialchars($piece["name"])?>" required>
             </div>
             <div class="form-group">
                 <label for="demo">展示連結(YouTube影片或其他)</label>
-                <input type="url" id="demo" name="demo" required>
+                <input type="url" id="demo" name="demo" value="<?= htmlspecialchars($piece["demo"])?>" required>
             </div>
             <div class="form-group">
                 <label for="poster">海報連結</label>
-                <input type="url" id="poster" name="poster" required>
+                <input type="url" id="poster" name="poster" value="<?= htmlspecialchars($piece["poster"])?>" required>
             </div>
             <div class="form-group">
                 <label for="code">程式碼連結(可選)</label>
-                <input type="url" id="code" name="code">
+                <input type="url" id="code" name="code" value="<?= htmlspecialchars($piece["code"])?>">
             </div>
             <div class="form-group">
                 <label for="document">文件連結(PDF)</label>
-                <input type="url" id="document" name="document" required>
+                <input type="url" id="document" name="document" value="<?= htmlspecialchars($piece["document"])?>" required>
             </div>
             <div class="form-group">
-                <button type="submit">新增</button>
+                <button type="submit">修改</button>
             </div>
         </form>
     </div>
