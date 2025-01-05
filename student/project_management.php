@@ -59,7 +59,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["tid"], $_POST["name"]
         $error_message = "錯誤：找不到隊伍編號 $tid";
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -71,10 +70,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["tid"], $_POST["name"]
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            background-color: #f9fafc;
-            color: #333;
         }
         .navbar {
             display: flex;
