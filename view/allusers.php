@@ -56,23 +56,47 @@
             color: #333;
         }
 
+        /* Navbar Styling */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 15px 30px;
-            background-color: #007BFF;
+            background-color: #c5a562;
             color: white;
+            position: relative;
+        }
+
+        .navbar .logo img {
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .navbar .site-name {
+            font-size: 28px;
+            color: #101020;
+            font-weight: bold;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .navbar .auth-links a {
+            color: #101020;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .auth-links a:hover {
+            color: #ffeb3b;
+            text-decoration: underline;
         }
 
         #console-link {
             text-decoration: none;
             color: white;
-        }
-
-        .navbar .site-name {
-            font-size: 28px;
-            font-weight: bold;
         }
 
         .table-container {
@@ -95,15 +119,30 @@
         }
 
         .identity-link {
-            text-align: center;
-        }
+        text-align: center;
+        margin: 20px 0;
+    }
 
-        .identity-link > a {
-            text-decoration: none;
-            margin: 0 10px;
-            color: #007BFF;
-        }
+    .identity-link > a {
+        display: inline-block;
+        text-decoration: none;
+        margin: 0 10px;
+        padding: 8px 15px;
+        color: white;
+        background-color: #007BFF;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
 
+    .identity-link > a:hover {
+        background-color: #0056b3;
+        transform: scale(1.1);
+    }
+
+    .identity-link > a:active {
+        background-color: #003f7f;
+    }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -152,9 +191,14 @@
     </style>
 </head>
 <body>
+    <!-- Navbar -->
     <div class="navbar">
-        <div class="site-name">
-            <a href="console.php" id="console-link">高雄大學學生創意競賽</a>
+        <div class="logo">
+            <img src="../img/logo.png" alt="Logo">
+        </div>
+        <div class="site-name">高雄大學學生創意競賽</div>
+        <div class="auth-links">
+            <a href="../view/console.php">返回個人資料</a>
         </div>
     </div>
     <div class="table-container">

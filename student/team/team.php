@@ -1,7 +1,7 @@
 <?php
 session_start();
-if (!isset($_SESSION["ssn"])) {
-    header("Location: index.php");
+if (($_SESSION["identity"] != "student")) {
+    header("Location: ../../view/index.php");
     exit();
 }
 
@@ -13,7 +13,7 @@ if (!$select_db) {
 }
 
 $ssn = $_SESSION["ssn"];
-$identity = $_SESSION["identity"]; // 確認是學生還是教師
+$identity = $_SESSION["identity"]; // 確認是學生
 
 // 獲取隊伍 ID
 $team_id = null;
@@ -23,16 +23,6 @@ if ($identity === "student") {
     $result_team_id = mysqli_query($link, $query_team_id);
     if (!$result_team_id) {
         echo "查詢學生的隊伍 ID 失敗: " . mysqli_error($link);
-        exit();
-    }
-    $team_id_row = mysqli_fetch_assoc($result_team_id);
-    $team_id = $team_id_row["tid"];
-} elseif ($identity === "teacher") {
-    // 教師角色：從 team 表中查找教師指導的隊伍 ID
-    $query_team_id = "SELECT tid FROM team WHERE teacher_ssn = '$ssn'";
-    $result_team_id = mysqli_query($link, $query_team_id);
-    if (!$result_team_id) {
-        echo "查詢教師的隊伍 ID 失敗: " . mysqli_error($link);
         exit();
     }
     $team_id_row = mysqli_fetch_assoc($result_team_id);
@@ -59,6 +49,7 @@ $sql_students = "
     FROM student
     JOIN user ON student.ssn = user.ssn
     WHERE student.tid = '$team_id'
+    ORDER BY student.sid ASC
 ";
 $result_students = mysqli_query($link, $sql_students);
 if (!$result_students) {
@@ -77,11 +68,11 @@ while ($row = mysqli_fetch_assoc($result_students)) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Team Information</title>
+    <title>隊伍資訊</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -216,7 +207,8 @@ while ($row = mysqli_fetch_assoc($result_students)) {
             <div class="buttons">
                 <?php if ($identity === "student"): ?>
                     <button onclick="location.href='../../student/team/edit_team.php'">修改隊伍資料</button>
-                    <button onclick="location.href='../../student/project_management.html'">上傳作品</button>
+                    <button onclick="location.href='../project_management.php'">上傳作品</button>
+                    <button onclick="location.href='../project_modify.php'">修改作品</button>
                 <?php endif; ?>
                 <button onclick="location.href='../../view/browse-project.php'">瀏覽作品</button>
             </div>
