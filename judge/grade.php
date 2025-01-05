@@ -23,8 +23,16 @@ if (!$row_judge) {
     exit();
 }
 
-// 獲取所有參賽作品資料
-$sql_query_pieces = "SELECT * FROM `piece`";
+// 設定年份（可根據需求動態設置）
+$current_year = date("Y");
+
+// 獲取今年參賽作品資料
+$sql_query_pieces = "
+    SELECT p.*
+    FROM `piece` AS p
+    JOIN `team` AS t ON p.tid = t.tid
+    WHERE t.year = '$current_year'
+";
 $result_pieces = mysqli_query($link, $sql_query_pieces);
 if (!$result_pieces) {
     echo "無法取得參賽作品資料。";
@@ -57,6 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                                      ON DUPLICATE KEY UPDATE `score` = '$score', `comment` = '$comment'";
 
                 if (mysqli_query($link, $sql_insert_score)) {
+					include("rank.php");
                     echo "<script>alert('評分與留言已成功提交！');</script>";
                 } else {
                     echo "<script>alert('提交評分或留言時出錯！');</script>";
@@ -177,6 +186,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             background-color: #0056b3;
         }
     </style>
+	<script>
+        // 動態顯示選擇的作品詳細資訊
+        function showPieceDetails() {
+            const selectedPiece = document.getElementById('piece-select').value;
+            const pieces = document.querySelectorAll('.piece-details');
+            pieces.forEach(piece => {
+                piece.style.display = (piece.dataset.pid === selectedPiece) ? 'block' : 'none';
+            });
+        }
+    </script>
 </head>
 <body>
     <div class="navbar">
@@ -190,26 +209,45 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     </div>
     <div class="main-content">
         <div class="section-title">評分</div>
-        <?php while ($row_piece = mysqli_fetch_assoc($result_pieces)) { ?>
-            <form method="POST" class="piece">
-                <label>作品名稱：<?php echo htmlspecialchars($row_piece['name']); ?></label>
-                <label>
-                    Demo：<?php if (!empty($row_piece['demo'])) { ?>
-                        <a href="<?php echo htmlspecialchars($row_piece['demo']); ?>" target="_blank">觀看 Demo</a>
-                    <?php } else { echo "尚未提供"; } ?>
-                </label>
-                <label>
-                    Document：<?php if (!empty($row_piece['document'])) { ?>
-                        <a href="<?php echo htmlspecialchars($row_piece['document']); ?>" target="_blank">查看 Document</a>
-                    <?php } else { echo "尚未提供"; } ?>
-                </label>
-                <input type="hidden" name="pid" value="<?php echo $row_piece['pid']; ?>">
-                <label for="score">分數 (0-100)：</label>
-                <input type="number" name="score" min="0" max="100" required>
-                <label for="comment">留言：</label>
-                <textarea name="comment" rows="4" placeholder="輸入您的留言"></textarea>
-                <button type="submit">提交評分</button>
-            </form>
+
+        <!-- 作品選擇 -->
+        <label for="piece-select">選擇作品：</label>
+        <select id="piece-select" onchange="showPieceDetails()">
+            <option value="" disabled selected>請選擇作品</option>
+            <?php while ($row_piece = mysqli_fetch_assoc($result_pieces)) { ?>
+                <option value="<?php echo htmlspecialchars($row_piece['pid']); ?>">
+                    <?php echo htmlspecialchars($row_piece['name']); ?>
+                </option>
+            <?php } ?>
+        </select>
+
+        <!-- 作品詳細資料與評分 -->
+        <?php
+        // 重置查詢指標，重新獲取今年參賽作品的詳細資料
+        mysqli_data_seek($result_pieces, 0);
+        while ($row_piece = mysqli_fetch_assoc($result_pieces)) {
+            ?>
+            <div class="piece-details" data-pid="<?php echo htmlspecialchars($row_piece['pid']); ?>" style="display: none;">
+                <form method="POST" class="piece">
+                    <label>作品名稱：<?php echo htmlspecialchars($row_piece['name']); ?></label>
+                    <label>
+                        Demo：<?php if (!empty($row_piece['demo'])) { ?>
+                            <a href="<?php echo htmlspecialchars($row_piece['demo']); ?>" target="_blank">觀看 Demo</a>
+                        <?php } else { echo "尚未提供"; } ?>
+                    </label>
+                    <label>
+                        Document：<?php if (!empty($row_piece['document'])) { ?>
+                            <a href="<?php echo htmlspecialchars($row_piece['document']); ?>" target="_blank">查看 Document</a>
+                        <?php } else { echo "尚未提供"; } ?>
+                    </label>
+                    <input type="hidden" name="pid" value="<?php echo $row_piece['pid']; ?>">
+                    <label for="score">分數 (0-100)：</label>
+                    <input type="number" name="score" min="0" max="100" required>
+                    <label for="comment">留言：</label>
+                    <textarea name="comment" rows="4" placeholder="輸入您的留言"></textarea>
+                    <button type="submit">提交評分</button>
+                </form>
+            </div>
         <?php } ?>
     </div>
 </body>
