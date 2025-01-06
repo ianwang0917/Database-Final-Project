@@ -24,7 +24,7 @@ if (!$row_judge) {
 }
 
 // 設定年份（可根據需求動態設置）
-$current_year = date("Y");
+$current_year = 2024;
 
 // 獲取今年參賽作品資料
 $sql_query_pieces = "
