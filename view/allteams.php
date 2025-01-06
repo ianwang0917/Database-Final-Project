@@ -22,6 +22,9 @@
 
     // 查詢選擇的表格資料
     $sql = "SELECT * FROM `$identity`";
+    if ($identity == "piece") {
+        $sql = "SELECT `p`.*, `s`.`score`, `j`.`title`, `u`.`name` AS judgename FROM piece p LEFT JOIN score s ON (`p`.`tid` = `s`.`tid`) LEFT JOIN judge j ON (`s`.`ssn` = `j`.`ssn`) LEFT JOIN user u ON (`j`.`ssn` = `u`.`ssn`)";
+    }
     $result = mysqli_query($link, $sql);
     if (!$result || mysqli_num_rows($result) < 0) {
         echo "資料錯誤或沒有資料！";
@@ -34,7 +37,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Data View</title>
+    <title>高雄大學學生創意競賽</title>
     <style>
         body {
             font-family: Arial, sans-serif;

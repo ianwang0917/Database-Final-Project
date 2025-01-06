@@ -241,7 +241,7 @@ $teacher = mysqli_fetch_assoc($result_teacher);
         <input type="text" 
                id="professor-id" 
                name="professor_id" 
-               value="<?=htmlspecialchars($teacher['ssn'])?>">
+               value="<?= isset($teacher) ? htmlspecialchars($teacher['ssn']) : '' ?>">
     </div>
 
     <button class="btn" type="submit">確認修改隊伍</button>
